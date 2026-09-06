@@ -1,0 +1,26 @@
+# Re-renders the .ipynb from the .qmd and commits it, on demand from the Actions tab.
+#
+# For whoever edits the .qmd in the browser or on a machine with no toolchain: quarto is the only thing this needs, because the .qmd sets `execute: enabled: false` and so nothing in the notebook is run here.
+name: Render notebook
+
+on: workflow_dispatch
+
+# The job commits the re-rendered notebook back to the branch it was run on.
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: quarto-dev/quarto-actions/setup@v2
+      - run: quarto render PS7_bacterial-growth.qmd
+      - name: Commit the notebook if it changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add PS7_bacterial-growth.ipynb
+          git diff --cached --quiet && echo "notebook already up to date" && exit 0
+          git commit -m "Re-render PS7_bacterial-growth.ipynb"
+          git push

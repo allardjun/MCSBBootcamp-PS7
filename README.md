@@ -4,6 +4,9 @@
 Both are committed: propose changes against whichever of the two is more convenient.
 The experimental data that part (b) loads is not part of this repository.
 
+In a Codespace, or in local VSCode via **Reopen in Container**, steps 1, 2 and 4 below are already done by `.devcontainer/devcontainer.json` when the container is built.
+With no local install at all, editing the `.qmd` on github.com and then running **Actions --> Render notebook --> Run workflow** re-renders the `.ipynb` and commits it.
+
 ## QuickStart
 
 1. Install [uv](https://docs.astral.sh/uv/getting-started/installation/): `curl -LsSf https://astral.sh/uv/install.sh | sh`
