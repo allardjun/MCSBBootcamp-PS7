@@ -5,27 +5,14 @@ author: "Jun Allard"
 # The `{python}` chunks below are placeholders for the student to write into, and this is what makes them arrive in the .ipynb as live code cells with the `#| eval: false` line stripped --- a plain fenced block would arrive as a markdown cell they have to retype.
 # Naming the kernel fixes the kernelspec written into that .ipynb, which is what VSCode and JupyterLab read to decide what to run it with.
 jupyter: python3
-# Nothing here is executed at build time, so building a problem set still needs no toolchain, no .venv and no kernel.
+# Nothing here is executed at render time, so `quarto render` needs no kernel and no .venv --- the .venv is only for running the notebook afterwards.
 execute:
   enabled: false
+# Only the .ipynb, so that a bare `quarto render` on this file does exactly one thing.
+# The two pandoc extensions on the format name are not cosmetic: without them the `a.`/`b.` parts of the problem come out as `1.` and every list restarts at one, so the notebook would say "1." where this source says "c.".
 format:
-  html:
-    toc: true
-    number-sections: false
-    # Figures are referenced without an extension. html, gfm and ipynb take the
-    # derived .svg; LaTeX resolves the same path to the source .pdf on its own,
-    # so the pdf format needs no key here.
+  ipynb+fancy_lists+startnum:
     default-image-extension: svg
-  gfm:
-    default-image-extension: svg
-  ipynb:
-    default-image-extension: svg
-  # Running header and footer, ported from the pre-Quarto exam-class originals.
-  # pdf and latex are separate formats to Quarto, so both need the key; with it on pdf alone the shipped .tex comes out without the header its own .pdf has.
-  pdf:
-    include-in-header: header.tex
-  latex:
-    include-in-header: header.tex
 ---
 
 ## Model simulation
