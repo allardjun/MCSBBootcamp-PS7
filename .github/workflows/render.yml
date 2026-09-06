@@ -16,6 +16,20 @@ jobs:
       - uses: actions/checkout@v4
       - uses: quarto-dev/quarto-actions/setup@v2
       - run: quarto render PS7_bacterial-growth.qmd
+      # Pandoc gives every cell a fresh random id on every render, so without this each run rewrites all sixteen of them and buries whatever actually changed.
+      # Numbering them by position is stable across renders, still unique within the notebook, and when one does change the diff means something: a cell was added, removed or moved.
+      - name: Give the cells stable ids
+        run: |
+          python3 - PS7_bacterial-growth.ipynb <<'PY'
+          import json, sys
+          path = sys.argv[1]
+          nb = json.load(open(path))
+          for i, cell in enumerate(nb["cells"]):
+              cell["id"] = f"cell-{i}"
+          with open(path, "w") as fh:
+              json.dump(nb, fh, indent=1, ensure_ascii=False)
+              fh.write("\n")
+          PY
       - name: Commit the notebook if it changed
         run: |
           git config user.name "github-actions[bot]"
