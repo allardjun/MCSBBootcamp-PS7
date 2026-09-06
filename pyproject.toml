@@ -1,0 +1,25 @@
+# The Python environment the notebook runs in.
+#
+# This file and the uv.lock beside it are the whole dependency story: `uv sync` builds an identical .venv from them on any machine, including a Codespace.
+#
+# Not a package --- there is nothing here to import or install, only a set of dependencies --- hence `package = false` below.
+
+[project]
+name = "mcsb-ps7"
+version = "0.1.0"
+description = "Standalone build and run environment for MCSB Bootcamp Project 7"
+requires-python = ">=3.12"
+
+dependencies = [
+  # The numerical stack the problem set is solved with.
+  "numpy>=2.0",
+  "scipy>=1.14",
+  "matplotlib>=3.9",
+  # The kernel the .ipynb runs on.
+  #
+  # Held below 7 deliberately. ipykernel 7 is a rewrite of the kernel machinery, and VSCode's Jupyter extension hung indefinitely against it in a Codespace --- "Run All" never started, because the connection handshake never completed.
+  "ipykernel>=6.29,<7",
+]
+
+[tool.uv]
+package = false

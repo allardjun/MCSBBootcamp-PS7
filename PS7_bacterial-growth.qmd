@@ -1,0 +1,120 @@
+---
+title: "Project 7: Bacterial growth and parameter fitting"
+subtitle: "MCSB Bootcamp --- Mathematical and Computational Track"
+author: "Jun Allard"
+# The `{python}` chunks below are placeholders for the student to write into, and this is what makes them arrive in the .ipynb as live code cells with the `#| eval: false` line stripped --- a plain fenced block would arrive as a markdown cell they have to retype.
+# Naming the kernel fixes the kernelspec written into that .ipynb, which is what VSCode and JupyterLab read to decide what to run it with.
+jupyter: python3
+# Nothing here is executed at build time, so building a problem set still needs no toolchain, no .venv and no kernel.
+execute:
+  enabled: false
+format:
+  html:
+    toc: true
+    number-sections: false
+    # Figures are referenced without an extension. html, gfm and ipynb take the
+    # derived .svg; LaTeX resolves the same path to the source .pdf on its own,
+    # so the pdf format needs no key here.
+    default-image-extension: svg
+  gfm:
+    default-image-extension: svg
+  ipynb:
+    default-image-extension: svg
+  # Running header and footer, ported from the pre-Quarto exam-class originals.
+  # pdf and latex are separate formats to Quarto, so both need the key; with it on pdf alone the shipped .tex comes out without the header its own .pdf has.
+  pdf:
+    include-in-header: header.tex
+  latex:
+    include-in-header: header.tex
+---
+
+## Model simulation
+
+Given the parameters of a model, we can use ODE solvers to predict the behavior of a model, $x(t)$.
+
+Given data, can we find which model parameters are the best fit?
+
+a. Write code to simulate the following model
+
+$$\frac{dN}{dt} = \lambda N \left( 1 - \left(N/\theta\right)^\alpha\right)$$ {#eq-generalized-logistic}
+
+where the user (you) specifies the parameter values $\lambda=1$, $\theta=10^3$, $\alpha=2$, and the initial condition $N(0)=200$.
+Plot a time series of $N_\mathrm{sim}(t)$.
+
+```{python}
+#| eval: false
+# Your code here.
+```
+
+## Data analysis
+
+b. Write code that loads bacterial growth experimental data into two arrays: one for the amount of bacteria $N_\mathrm{exp}(t_i)$ and the other for the measurement time points $t_i$.
+   Plot the time series $N_\mathrm{exp}(t_i)$.
+
+```{python}
+#| eval: false
+# Your code here.
+```
+
+c. Plot the solution $N(t)$ and the experimental data $N_\mathrm{exp}(t)$ on the same axes.
+   Set $N(0)$ to match the experimental data exactly.
+   Manually explore different parameter values of $\lambda,\theta,\alpha$ to see which values best fit the data.
+
+```{python}
+#| eval: false
+# Your code here.
+```
+
+## Parameter learning
+
+d. Write code that computes the sum of squared error (SSE), which is
+
+$$\mathrm{SSE} = \sum_i \left( N_\mathrm{sim}(t_i) - N_\mathrm{exp}(t_i)\right)^2$$
+
+Hint: `scipy.integrate.solve_ivp` takes a `t_eval` argument, an array of times.
+Given one, it returns the solution at those times and no others.
+This is useful if you only need the solution at the measurement times $t_i$.
+
+```{python}
+#| eval: false
+# Your code here.
+```
+
+e. Using the code from the previous part, create a *function* that takes parameters and returns the SSE.
+   Hint: Define it with `def` in a cell of its own, so that the cells after it can call it.
+
+```{python}
+#| eval: false
+# Your code here.
+```
+
+f. Use an automated minimization algorithm like `scipy.optimize.minimize` to find the parameters that minimize the sum of squared error.
+   These parameters are the "best fit" or "maximum likelihood" parameters $\hat\lambda,\hat\theta,\hat\alpha$.
+   Plot, on the same axes, the experimental and best-fit model time series, $N_\mathrm{exp}(t)$ and $N_\mathrm{sim}(t)$.
+
+```{python}
+#| eval: false
+# Your code here.
+```
+
+## Model learning
+
+g. Now repeat the above, but use the model with $\alpha=1$.
+   Did the fit improve, or worsen?
+
+```{python}
+#| eval: false
+# Your code here.
+```
+
+h. Now repeat the above, but with
+
+$$\frac{dN}{dt} = \lambda N.$$
+
+Note this is numerically the same as @eq-generalized-logistic with $\theta \gg N$.
+Did the fit improve, or worsen?
+
+```{python}
+#| eval: false
+# Your code here.
+```
