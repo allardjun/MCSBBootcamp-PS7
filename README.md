@@ -3,7 +3,8 @@
 Using Codespaces:
 
 1. Launch the Codespace: Code > Codespace > Create Codespace on Main.
-2. Open `PS7_bacterial-growth.ipynb` in VSCode and pick **MCSB PS7** from the kernel picker at the top right. Everything should already be set up by the `venv` and `dev-container`. 
+2. Regenerate the notebook after editing the `.qmd`: `quarto render PS7_bacterial-growth.qmd`
+3. Open `PS7_bacterial-growth.ipynb` in VSCode and pick **MCSB PS7** from the kernel picker at the top right. Everything should already be set up by the `venv` and `dev-container`. 
 
 Running locally:
 
